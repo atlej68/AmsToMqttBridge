@@ -496,7 +496,7 @@ void AmsWebServer::dataJson() {
 	}
 	json["status"]["esp"] = espStatus;
 
-	unsigned long now = millis();
+	unsigned long now = millis64();
 	String hanStatus;
 	if(config->getMeterType() == 0) {
 		hanStatus = "secondary";

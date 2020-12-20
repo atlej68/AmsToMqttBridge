@@ -1,9 +1,10 @@
 #include "HanToJson.h"
+#include "Uptime.h"
 
 void hanToJson(JsonDocument& json, AmsData& data, HwTools& hw, double temperature, String name) {
     json["id"] = WiFi.macAddress();
     json["name"] = name;
-    json["up"] = millis();
+    json["up"] = millis64();
     json["t"] = data.getPackageTimestamp();
 
     double vcc = hw.getVcc();

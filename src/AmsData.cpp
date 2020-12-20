@@ -2,11 +2,12 @@
 #include "Kaifa.h"
 #include "Aidon.h"
 #include "Kamstrup.h"
+#include "Uptime.h"
 
 AmsData::AmsData() {}
 
 AmsData::AmsData(int meterType, bool substituteMissing, HanReader& hanReader) {
-    lastUpdateMillis = millis();
+    lastUpdateMillis = millis64();
     packageTimestamp = hanReader.getPackageTime();
 
     int listSize = hanReader.getListSize();

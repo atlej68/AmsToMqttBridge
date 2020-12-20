@@ -114,8 +114,10 @@ $(function() {
             $('#config-system-link').addClass('active');
             break;
     }
-
-    var swv = $('#swVersion')
+//
+// atlej68: remove check for new version in this branch
+//
+/*  var swv = $('#swVersion')
     if(meters.length > 0 && swv.length == 1 && swv.text() != "SNAPSHOT") {
         var v = swv.text().substring(1).split('.');
         var v_major = parseInt(v[0]);
@@ -172,7 +174,7 @@ $(function() {
                 $('#newVersion').removeClass('d-none');
             }
         });
-    }
+    } */   
 });
 
 var setStatus = function(id, status) {
@@ -210,7 +212,7 @@ var fetch = function() {
         }
 
         if(window.moment) {
-            $('#currentMillis').html(moment.duration(parseInt(json.uptime_seconds), 'seconds').humanize());
+            $('#currentMillis').html(moment.duration(parseInt(json.uptime_seconds), 'seconds').humanize(true, {d: 10000}));     // atlej68: show uptime in days.
             $('#currentMillis').closest('.row').show();
         }
 

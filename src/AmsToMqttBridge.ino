@@ -291,7 +291,7 @@ double energy = -1.0;
 
 void loop() {
 	Debug.handle();
-	unsigned long now = millis();
+	unsigned long now = millis64();
 	if(config.getApPin() != 0xFF) {
 		if (digitalRead(config.getApPin()) == LOW) {
 			if (buttonActive == false) {
@@ -461,7 +461,7 @@ void setupHanPort(int pin, int meterType) {
 void errorBlink() {
 	if(lastError == 3)
 		lastError = 0;
-	lastErrorBlink = millis();
+	lastErrorBlink = millis64();
 	for(;lastError < 3;lastError++) {
 		switch(lastError) {
 			case 0:
@@ -534,7 +534,7 @@ void readHanPort() {
 			hanSerial->read();
 		}
 
-		lastSuccessfulRead = millis();
+		lastSuccessfulRead = millis64();
 
 		if(config.getMeterType() > 0) {
 			if(!hw.ledBlink(LED_GREEN, 1))
@@ -805,8 +805,8 @@ void readHanPort() {
 	}
 
 	// Switch parity if meter is still not detected
-	if(config.getMeterType() == 0 && millis() - lastSuccessfulRead > 10000) {
-		lastSuccessfulRead = millis();
+	if(config.getMeterType() == 0 && millis64() - lastSuccessfulRead > 10000) {
+		lastSuccessfulRead = millis64();
 		debugD("No data for current setting, switching parity");
 		Serial.flush();
 		if(++currentMeterType == 4) currentMeterType = 1;
@@ -817,11 +817,11 @@ void readHanPort() {
 unsigned long wifiTimeout = WIFI_CONNECTION_TIMEOUT;
 unsigned long lastWifiRetry = -WIFI_CONNECTION_TIMEOUT;
 void WiFi_connect() {
-	if(millis() - lastWifiRetry < wifiTimeout) {
+	if(millis64() - lastWifiRetry < wifiTimeout) {
 		delay(50);
 		return;
 	}
-	lastWifiRetry = millis();
+	lastWifiRetry = millis64();
 
 	if (Debug.isActive(RemoteDebug::INFO)) debugI("Connecting to WiFi network: %s", config.getWifiSsid());
 
@@ -859,11 +859,11 @@ void MQTT_connect() {
 		if(Debug.isActive(RemoteDebug::WARNING)) debugW("No MQTT config");
 		return;
 	}
-	if(millis() - lastMqttRetry < (mqtt.lastError() == 0 ? 5000 : 60000)) {
+	if(millis64() - lastMqttRetry < (mqtt.lastError() == 0 ? 5000 : 60000)) {
 		yield();
 		return;
 	}
-	lastMqttRetry = millis();
+	lastMqttRetry = millis64();
 	if(Debug.isActive(RemoteDebug::INFO)) {
 		debugD("Disconnecting MQTT before connecting");
 	}
@@ -986,9 +986,9 @@ unsigned long lastSystemDataSent = -10000;
 void sendSystemStatusToMqtt() {
 	if (strlen(config.getMqttPublishTopic()) == 0)
 		return;
-	if(millis() - lastSystemDataSent < 10000)
+	if(millis64() - lastSystemDataSent < 10000)
 		return;
-	lastSystemDataSent = millis();
+	lastSystemDataSent = millis64();
 
 	mqtt.publish(String(config.getMqttPublishTopic()) + "/id", WiFi.macAddress());
 	mqtt.publish(String(config.getMqttPublishTopic()) + "/uptime", String((unsigned long) millis64()/1000));
