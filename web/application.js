@@ -212,7 +212,7 @@ var fetch = function() {
         }
 
         if(window.moment) {
-            $('#currentMillis').html(moment.duration(parseInt(json.uptime_seconds), 'seconds').humanize(true, {d: 10000}));     // atlej68: show uptime in days.
+            $('#currentMillis').html(moment.duration(parseInt(json.uptime_seconds), 'seconds').asDays());     // atlej68: show uptime in days.
             $('#currentMillis').closest('.row').show();
         }
 

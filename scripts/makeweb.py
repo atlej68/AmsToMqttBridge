@@ -13,7 +13,7 @@ srcroot = "src/web/root"
 
 version = os.environ.get('GITHUB_TAG')
 if version == None:
-    version = "v1.3.1-a1"
+    version = "v1.3.1-a2"
 
 if os.path.exists(srcroot):
     shutil.rmtree(srcroot)
